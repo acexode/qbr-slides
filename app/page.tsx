@@ -779,6 +779,16 @@ export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
   const ActiveSlide = slides[activeIndex];
 
+  const goToPreviousSlide = () => {
+    setActiveIndex((prev) => (prev - 1 + slides.length) % slides.length);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const goToNextSlide = () => {
+    setActiveIndex((prev) => (prev + 1) % slides.length);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowRight") {
@@ -797,16 +807,16 @@ export default function Home() {
       <div className="deck-stage">
         <ActiveSlide />
         <div className="deck-controls">
-          <button type="button" onClick={() => setActiveIndex((prev) => (prev - 1 + slides.length) % slides.length)}>
-            Previous
+          <button type="button" className="deck-arrow deck-arrow-left" onClick={goToPreviousSlide} aria-label="Previous slide">
+            <i className="fas fa-chevron-left" />
           </button>
-          <button type="button" onClick={() => setActiveIndex((prev) => (prev + 1) % slides.length)}>
-            Next
+          <button type="button" className="deck-arrow deck-arrow-right" onClick={goToNextSlide} aria-label="Next slide">
+            <i className="fas fa-chevron-right" />
           </button>
-          <span className="deck-count">
-            {activeIndex + 1}/{slides.length}
-          </span>
         </div>
+        <span className="deck-count">
+          {activeIndex + 1}/{slides.length}
+        </span>
       </div>
     </main>
   );
