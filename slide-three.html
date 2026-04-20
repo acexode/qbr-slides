@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ImpactifyU Platform - Project Deep Dive</title>
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Montserrat:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        font-family: 'Inter', sans-serif;
+        background: #f5f7fa;
+    }
+    
+    .slide-container {
+        position: relative;
+        width: 1280px;
+        height: 720px;
+        overflow: hidden;
+        background: #f8fafc;
+    }
+    
+    /* Header Section */
+    .header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1280px;
+        height: 100px;
+        background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 60px;
+        z-index: 10;
+    }
+    
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+    
+    .header-icon {
+        width: 48px;
+        height: 48px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+    }
+    
+    .header-text {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .header-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 4px;
+    }
+    
+    .header-subtitle {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .status-badge {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 8px 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .status-dot {
+        width: 10px;
+        height: 10px;
+        background: #10b981;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+    }
+    
+    .status-text {
+        font-size: 14px;
+        color: white;
+        font-weight: 500;
+    }
+    
+    /* Main Content */
+    .main-content {
+        position: absolute;
+        top: 120px;
+        left: 60px;
+        width: 1160px;
+        height: 550px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        z-index: 5;
+    }
+    
+    /* Strategic Goal Section */
+    .strategic-goal {
+        background: white;
+        border-radius: 12px;
+        padding: 24px 32px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        height: 125px;
+    }
+    
+    .goal-icon {
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 28px;
+        flex-shrink: 0;
+    }
+    
+    .goal-content {
+        flex: 1;
+    }
+    
+    .goal-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 20px;
+        font-weight: 600;
+        color: #1e3a5f;
+        margin-bottom: 6px;
+    }
+    
+    .goal-text {
+        font-size: 15px;
+        color: #64748b;
+        line-height: 1.5;
+    }
+    
+    .highlight {
+        color: #3b82f6;
+        font-weight: 600;
+    }
+    
+    /* Two Column Layout */
+    .two-column {
+        display: flex;
+        gap: 32px;
+        flex: 1;
+    }
+    
+    /* Left Column - Core Pillars */
+    .left-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .pillars-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 4px;
+    }
+    
+    .pillars-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        color: #1e3a5f;
+    }
+    
+    .pillars-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        flex: 1;
+    }
+    
+    .pillar-item {
+        background: white;
+        border-radius: 10px;
+        padding: 18px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex: 1;
+        transition: all 0.3s ease;
+    }
+    
+    .pillar-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: white;
+        flex-shrink: 0;
+    }
+    
+    .pillar-icon.lms { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+    .pillar-icon.leadership { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+    .pillar-icon.community { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+    
+    .pillar-info {
+        flex: 1;
+    }
+    
+    .pillar-name {
+        font-size: 15px;
+        font-weight: 700;
+        color: #1e3a5f;
+        margin-bottom: 4px;
+    }
+    
+    .pillar-desc {
+        font-size: 13.5px;
+        color: #64748b;
+        line-height: 1.45;
+    }
+    
+    /* Right Column - Technical Excellence */
+    .right-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .tech-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 4px;
+    }
+    
+    .tech-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        color: #1e3a5f;
+    }
+    
+    .tech-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        flex: 1;
+    }
+    
+    .tech-item {
+        background: white;
+        border-radius: 10px;
+        padding: 24px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+    }
+    
+    .tech-item-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+    
+    .tech-item-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        color: white;
+    }
+    
+    .tech-item-icon.arch { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); }
+    .tech-item-icon.security { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+    
+    .tech-item-name {
+        font-size: 16px;
+        font-weight: 700;
+        color: #1e3a5f;
+    }
+    
+    .tech-features {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .tech-feature {
+        background: #f1f5f9;
+        border-radius: 6px;
+        padding: 8px 14px;
+        font-size: 12.5px;
+        color: #475569;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .tech-feature i {
+        color: #3b82f6;
+        font-size: 11px;
+    }
+    
+    /* Footer */
+    .footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 1280px;
+        height: 50px;
+        background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 60px;
+        z-index: 20;
+    }
+    
+    .footer-left {
+        display: flex;
+        align-items: center;
+    }
+    
+    .footer-text {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .footer-right {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+    }
+    
+    .footer-stat {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .footer-stat-value {
+        font-size: 14px;
+        font-weight: 700;
+        color: white;
+    }
+    
+    .footer-stat-label {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.7);
+    }
+    
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+</style>
+</head>
+<body>
+<div class="slide-container">
+<!-- Header -->
+<div class="header">
+<div class="header-left">
+<div class="header-icon">
+<i class="fas fa-graduation-cap"></i>
+</div>
+<div class="header-text">
+<div class="header-title">ImpactifyU Platform</div>
+<div class="header-subtitle">The Ecosystem - Connecting Global Businesses with Africa's Workforce</div>
+</div>
+</div>
+<div class="header-right">
+<div class="status-badge">
+<div class="status-dot"></div>
+<span class="status-text">100% Operational</span>
+</div>
+</div>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+<!-- Strategic Goal -->
+<div class="strategic-goal">
+<div class="goal-icon">
+<i class="fas fa-bullseye"></i>
+</div>
+<div class="goal-content">
+<div class="goal-title">Strategic Goal</div>
+<div class="goal-text">
+                Connect global businesses with Africa's workforce through a <span class="highlight">gamified, multi-tenant LMS</span> that enables scalable workforce development, leadership training, and community engagement for sustainable social impact.
+            </div>
+</div>
+</div>
+<!-- Two Column Layout -->
+<div class="two-column">
+<!-- Left Column - Core Pillars -->
+<div class="left-column">
+<div class="pillars-header">
+<i class="fas fa-cube" style="color: #3b82f6;"></i>
+<div class="pillars-title">Core Pillars Developed</div>
+</div>
+<div class="pillars-grid">
+<div class="pillar-item">
+<div class="pillar-icon lms">
+<i class="fas fa-book-reader"></i>
+</div>
+<div class="pillar-info">
+<div class="pillar-name">LMS &amp; Resource Center</div>
+<div class="pillar-desc">Full course authoring, progress tracking, and multi-content library (Podcasts, Videos, Articles)</div>
+</div>
+</div>
+<div class="pillar-item">
+<div class="pillar-icon leadership">
+<i class="fas fa-chess-king"></i>
+</div>
+<div class="pillar-info">
+<div class="pillar-name">Leadership Development</div>
+<div class="pillar-desc">Daily quizzes, situational work scenarios, and "Leadership Voice" media platform</div>
+</div>
+</div>
+<div class="pillar-item">
+<div class="pillar-icon community">
+<i class="fas fa-users"></i>
+</div>
+<div class="pillar-info">
+<div class="pillar-name">Community Engagement</div>
+<div class="pillar-desc">Real-time discussion threads (WebSockets) and achievement-based gamification</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column - Technical Excellence -->
+<div class="right-column">
+<div class="tech-header">
+<i class="fas fa-code" style="color: #3b82f6;"></i>
+<div class="tech-title">Technical Excellence</div>
+</div>
+<div class="tech-grid">
+<div class="tech-item">
+<div class="tech-item-header">
+<div class="tech-item-icon arch">
+<i class="fas fa-server"></i>
+</div>
+<div class="tech-item-name">Architecture</div>
+</div>
+<div class="tech-features">
+<div class="tech-feature">
+<i class="fas fa-check"></i>
+<span>Multi-tenant BPO management</span>
+</div>
+<div class="tech-feature">
+<i class="fas fa-check"></i>
+<span>Redux state management</span>
+</div>
+<div class="tech-feature">
+<i class="fas fa-check"></i>
+<span>Cloud-based file handling</span>
+</div>
+</div>
+</div>
+<div class="tech-item">
+<div class="tech-item-header">
+<div class="tech-item-icon security">
+<i class="fas fa-shield-alt"></i>
+</div>
+<div class="tech-item-name">Security</div>
+</div>
+<div class="tech-features">
+<div class="tech-feature">
+<i class="fas fa-check"></i>
+<span>MFA implementation</span>
+</div>
+<div class="tech-feature">
+<i class="fas fa-check"></i>
+<span>Granular RBAC</span>
+</div>
+<div class="tech-feature">
+<i class="fas fa-check"></i>
+<span>Role-based access control</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="footer">
+<div class="footer-left">
+<div class="footer-text">Outsource Global | Engineering Projects QBR</div>
+</div>
+<div class="footer-right">
+<div class="footer-stat">
+<div class="footer-stat-value">100%</div>
+<div class="footer-stat-label">System Uptime</div>
+</div>
+<div class="footer-stat">
+<div class="footer-stat-value">3</div>
+<div class="footer-stat-label">Active Modules</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

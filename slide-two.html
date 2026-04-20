@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Portfolio Overview - QBR</title>
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Montserrat:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        font-family: 'Inter', sans-serif;
+        background: #f5f7fa;
+    }
+    
+    .slide-container {
+        position: relative;
+        width: 1280px;
+        height: 720px;
+        overflow: hidden;
+        background: #f8fafc;
+    }
+    
+    /* Header Section */
+    .header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1280px;
+        height: 120px;
+        background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 60px;
+        z-index: 10;
+    }
+    
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+    
+    .header-icon {
+        width: 48px;
+        height: 48px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+    }
+    
+    .header-text {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .header-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 4px;
+    }
+    
+    .header-subtitle {
+        font-size: 16px;
+        color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .status-badge {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 8px 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .status-dot {
+        width: 10px;
+        height: 10px;
+        background: #10b981;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+    }
+    
+    .status-text {
+        font-size: 14px;
+        color: white;
+        font-weight: 500;
+    }
+    
+    /* Executive Summary Section */
+    .summary-section {
+        position: absolute;
+        top: 150px;
+        left: 60px;
+        width: 1160px;
+        height: 150px;
+        background: white;
+        border-radius: 12px;
+        padding: 32px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+        z-index: 5;
+    }
+    
+    .summary-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+    
+    .summary-icon {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 18px;
+    }
+    
+    .summary-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 20px;
+        font-weight: 600;
+        color: #1e3a5f;
+    }
+    
+    .summary-text {
+        font-size: 16px;
+        color: #64748b;
+        line-height: 1.6;
+    }
+    
+    .highlight {
+        color: #3b82f6;
+        font-weight: 600;
+    }
+    
+    /* Three Pillars Section */
+    .pillars-section {
+        position: absolute;
+        top: 324px;
+        left: 60px;
+        width: 1160px;
+        height: 320px;
+        display: flex;
+        gap: 24px;
+        z-index: 5;
+    }
+    
+    .pillar-card {
+        flex: 1;
+        background: white;
+        border-radius: 12px;
+        padding: 28px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        border: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    
+    .pillar-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+    
+    .pillar-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        color: white;
+        flex-shrink: 0;
+    }
+    
+    .erp-icon { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+    .impact-icon { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+    .possap-icon { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+    
+    .pillar-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 20px;
+        font-weight: 600;
+        color: #1e3a5f;
+    }
+    
+    .pillar-subtitle {
+        font-size: 14px;
+        color: #64748b;
+        margin-top: 2px;
+    }
+    
+    .pillar-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+    
+    .feature-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .feature-check {
+        color: #10b981;
+        font-size: 14px;
+        margin-top: 3px;
+    }
+    
+    .feature-text {
+        font-size: 14px;
+        color: #64748b;
+        line-height: 1.4;
+    }
+    
+    .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: #e2e8f0;
+        border-radius: 4px;
+        margin-top: auto;
+    }
+    
+    .progress-fill {
+        height: 100%;
+        border-radius: 4px;
+    }
+    
+    .erp-progress { background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%); width: 95%; }
+    .impact-progress { background: linear-gradient(90deg, #10b981 0%, #059669 100%); width: 100%; }
+    .possap-progress { background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%); width: 100%; }
+    
+    .progress-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        color: #64748b;
+        margin-top: 8px;
+    }
+    
+    /* Footer */
+    .footer {
+        position: absolute;
+        top: 660px;
+        left: 60px;
+        width: 1160px;
+        height: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .footer-text {
+        font-size: 14px;
+        color: #64748b;
+    }
+    
+    .footer-stats {
+        display: flex;
+        gap: 32px;
+    }
+    
+    .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .stat-value {
+        font-size: 16px;
+        font-weight: 700;
+        color: #1e3a5f;
+    }
+    
+    .stat-label {
+        font-size: 14px;
+        color: #64748b;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+</style>
+</head>
+<body>
+<div class="slide-container">
+<!-- Header -->
+<div class="header">
+<div class="header-left">
+<div class="header-icon">
+<i class="fas fa-project-diagram"></i>
+</div>
+<div class="header-text">
+<div class="header-title">Portfolio Overview</div>
+<div class="header-subtitle">Strategic Projects &amp; Digital Transformation</div>
+</div>
+</div>
+<div class="header-right">
+<div class="status-badge">
+<div class="status-dot"></div>
+<span class="status-text">All Systems Operational</span>
+</div>
+</div>
+</div>
+<!-- Executive Summary -->
+<div class="summary-section">
+<div class="summary-header">
+<div class="summary-icon">
+<i class="fas fa-chart-line"></i>
+</div>
+<div class="summary-title">Executive Summary</div>
+</div>
+<div class="summary-text">
+            Driving digital transformation across <span class="highlight">three strategic pillars</span>: Internal Operations (ERP), Social Impact (Impactify), and Public Sector Automation (POSSAP). Our portfolio focuses on enhancing organizational efficiency, empowering African youth, and modernizing public sector services.
+        </div>
+</div>
+<!-- Three Pillars -->
+<div class="pillars-section">
+<!-- ERP System -->
+<div class="pillar-card">
+<div class="pillar-header">
+<div class="pillar-icon erp-icon">
+<i class="fas fa-cogs"></i>
+</div>
+<div>
+<div class="pillar-title">ERP System</div>
+<div class="pillar-subtitle">Internal Operations</div>
+</div>
+</div>
+<div class="pillar-content">
+<div class="feature-item">
+<i class="fas fa-check-circle feature-check"></i>
+<span class="feature-text">Payroll automation with tax configurations (100%)</span>
+</div>
+<div class="feature-item">
+<i class="fas fa-check-circle feature-check"></i>
+<span class="feature-text">Salary deduction upgrades (100%)</span>
+</div>
+<div class="feature-item">
+<i class="fas fa-check-circle feature-check"></i>
+<span class="feature-text">Workforce management system (50%)</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill erp-progress"></div>
+</div>
+<div class="progress-label">
+<span>95% Complete</span>
+<span>On Track</span>
+</div>
+</div>
+</div>
+<!-- Impactify -->
+<div class="pillar-card">
+<div class="pillar-header">
+<div class="pillar-icon impact-icon">
+<i class="fas fa-users"></i>
+</div>
+<div>
+<div class="pillar-title">Impactify</div>
+<div class="pillar-subtitle">Social Impact</div>
+</div>
+</div>
+<div class="pillar-content">
+<div class="feature-item">
+<i class="fas fa-check-circle feature-check"></i>
+<span class="feature-text">Multi-tenant LMS with gamification</span>
+</div>
+<div class="feature-item">
+<i class="fas fa-check-circle feature-check"></i>
+<span class="feature-text">Leadership development platform</span>
+</div>
+<div class="feature-item">
+<i class="fas fa-check-circle feature-check"></i>
+<span class="feature-text">Community engagement features</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill impact-progress"></div>
+</div>
+<div class="progress-label">
+<span>100% Complete</span>
+<span>Operational</span>
+</div>
+</div>
+</div>
+<!-- POSSAP -->
+<div class="pillar-card">
+<div class="pillar-header">
+<div class="pillar-icon header-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); width: 48px; height: 48px; border-radius: 10px; font-size: 20px;">
+<i class="fas fa-shield-alt"></i>
+</div>
+<div>
+<div class="pillar-title">POSSAP</div>
+<div class="pillar-subtitle">Public Sector</div>
+</div>
+</div>
+<div class="pillar-content">
+<div class="feature-item">
+<i class="fas fa-check-circle feature-check"></i>
+<span class="feature-text">Biometric integration (100%)</span>
+</div>
+<div class="feature-item">
+<i class="fas fa-check-circle feature-check"></i>
+<span class="feature-text">Portal modernization complete</span>
+</div>
+<div class="feature-item">
+<i class="fas fa-check-circle feature-check"></i>
+<span class="feature-text">AWS-backed security features</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill possap-progress"></div>
+</div>
+<div class="progress-label">
+<span>100% Complete</span>
+<span>Delivered</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="footer">
+<div class="footer-text">Outsource Global | Engineering Projects QBR</div>
+<div class="footer-stats">
+<div class="stat-item">
+<span class="stat-value">3</span>
+<span class="stat-label">Active Projects</span>
+</div>
+<div class="stat-item">
+<span class="stat-value">98%</span>
+<span class="stat-label">Avg. Completion</span>
+</div>
+<div class="stat-item">
+<span class="stat-value">Q1 2026</span>
+<span class="stat-label">Review Period</span>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
