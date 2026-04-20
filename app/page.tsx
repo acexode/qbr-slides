@@ -403,260 +403,377 @@ function SlideThree() {
   );
 }
 
-function GenericSlide({
+function SlideCard({
+  children,
+  slideNum,
+}: {
+  children: React.ReactNode;
+  slideNum: number;
+}) {
+  return (
+    <div className="slide-container slide-pro">
+      <span className="slide-num-badge">Slide {slideNum} / 8</span>
+      {children}
+    </div>
+  );
+}
+
+function SHeader({
+  icon,
+  iconClass,
   title,
   subtitle,
-  leftTitle,
-  leftItems,
-  rightTitle,
-  rightItems,
-  chart,
+  badge,
+  badgeVariant = "green",
 }: {
+  icon: string;
+  iconClass: string;
   title: string;
   subtitle: string;
-  leftTitle: string;
-  leftItems: string[];
-  rightTitle: string;
-  rightItems: string[];
-  chart?: React.ReactNode;
+  badge?: string;
+  badgeVariant?: "green" | "amber";
 }) {
   return (
-    <div className="slide-container slide-generic">
-      <div className="header">
-        <div className="header-left">
-          <div className="header-icon">
-            <i className="fas fa-layer-group" />
-          </div>
-          <div className="header-text">
-            <div className="header-title">{title}</div>
-            <div className="header-subtitle">{subtitle}</div>
-          </div>
+    <div className="s-header">
+      <div className="s-header-left">
+        <div className={`s-header-icon ${iconClass}`}>
+          <i className={icon} />
         </div>
-        <div className="header-right">
-          <div className="status-badge">
-            <div className="status-dot" />
-            <span className="status-text">QBR Update</span>
-          </div>
+        <div>
+          <div className="s-header-title">{title}</div>
+          <div className="s-header-sub">{subtitle}</div>
         </div>
       </div>
-
-      <div className="main-content generic-main">
-        <div className="generic-card">
-          <h3>{leftTitle}</h3>
-          <ul>
-            {leftItems.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
+      {badge && (
+        <div className={`s-badge ${badgeVariant === "amber" ? "s-badge-amber" : ""}`}>
+          <div className="s-badge-dot" />
+          <span className="s-badge-text">{badge}</span>
         </div>
-        <div className="generic-card">
-          <h3>{rightTitle}</h3>
-          <ul>
-            {rightItems.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-          {chart ? <div className="chart-panel">{chart}</div> : null}
-        </div>
-      </div>
-
-      <div className="footer">
-        <div className="footer-text">Outsource Global | Engineering Projects QBR</div>
-        <div className="footer-stats">
-          <div className="stat-item">
-            <span className="stat-value">Q1 2026</span>
-            <span className="stat-label">Review</span>
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
 
-function MiniBarChart({
-  items,
+function SFooter({
+  stats,
 }: {
-  items: { label: string; value: number; tone?: "blue" | "green" | "amber" }[];
+  stats: { val: string; lbl: string; color?: string }[];
 }) {
   return (
-    <div className="mini-bar-chart" aria-label="Progress chart">
-      {items.map((item) => (
-        <div className="bar-row" key={item.label}>
-          <div className="bar-label-line">
-            <span>{item.label}</span>
-            <strong>{item.value}%</strong>
+    <div className="s-footer">
+      <div className="s-footer-brand">Outsource Global | Engineering Projects QBR</div>
+      <div className="s-footer-stats">
+        {stats.map((s) => (
+          <div className="s-stat" key={s.lbl}>
+            <span className="s-stat-val" style={s.color ? { color: s.color } : undefined}>
+              {s.val}
+            </span>
+            <span className="s-stat-lbl">{s.lbl}</span>
           </div>
-          <div className="bar-track">
-            <div className={`bar-fill ${item.tone ?? "blue"}`} style={{ width: `${item.value}%` }} />
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
 
-function DonutRow({ label, value }: { label: string; value: number }) {
+function BarRow({
+  label,
+  value,
+  tone = "blue",
+}: {
+  label: string;
+  value: number;
+  tone?: "blue" | "green" | "amber";
+}) {
   return (
-    <div className="donut-row">
-      <div className="donut" style={{ ["--value" as string]: `${value}%` }} />
-      <div className="donut-meta">
+    <div className="s-bar-row">
+      <div className="s-bar-meta">
         <span>{label}</span>
         <strong>{value}%</strong>
       </div>
+      <div className="s-track">
+        <div className={`s-fill s-fill-${tone}`} style={{ width: `${value}%` }} />
+      </div>
     </div>
   );
 }
 
-function PieBreakdown() {
+function CheckItem({ text, variant = "green" }: { text: React.ReactNode; variant?: "green" | "amber" }) {
   return (
-    <div className="pie-layout">
-      <div className="pie-main" aria-label="POSSAP key deliverables">
-        <div className="pie-hole">
-          <strong>100%</strong>
-          <span>Delivered</span>
-        </div>
+    <div className="s-check-item">
+      <div className={`s-check-dot s-check-dot-${variant}`}>
+        <i className={variant === "amber" ? "fas fa-clock" : "fas fa-check"} />
       </div>
-      <div className="pie-legend">
-        <div className="legend-item">
-          <span className="legend-dot legend-blue" />
-          <span>Citizen Services</span>
-          <strong>40%</strong>
-        </div>
-        <div className="legend-item">
-          <span className="legend-dot legend-green" />
-          <span>Admin Workflows</span>
-          <strong>35%</strong>
-        </div>
-        <div className="legend-item">
-          <span className="legend-dot legend-amber" />
-          <span>Biometric Security</span>
-          <strong>25%</strong>
-        </div>
-      </div>
+      <div className="s-check-text">{text}</div>
     </div>
+  );
+}
+
+function SlideFour() {
+  return (
+    <SlideCard slideNum={4}>
+      <SHeader
+        icon="fas fa-cogs"
+        iconClass="icon-blue"
+        title="ERP System — Progress Report"
+        subtitle="Modernizing financial and human resource operations"
+        badge="95% Complete"
+        badgeVariant="amber"
+      />
+      <div className="s-two-col">
+        <div className="s-card">
+          <div className="s-card-title">Q1 Achievements</div>
+          <CheckItem text="Payroll tax configurations fully deployed — all edge cases resolved" />
+          <CheckItem text="Salary deduction upgrade pipeline completed and tested" />
+          <CheckItem text="Salary back-pay module at 90% — final validation in progress" />
+          <CheckItem text="Candidate invitation & CV upload workflow delivered (100%)" />
+          <CheckItem text="ERP frontend migration and support protocols finalized" />
+        </div>
+        <div className="s-card">
+          <div className="s-card-title">Completion Tracker</div>
+          <BarRow label="Tax Configurations" value={100} tone="green" />
+          <BarRow label="Salary Deductions" value={100} tone="green" />
+          <BarRow label="Salary Back-pay" value={90} tone="blue" />
+          <BarRow label="Workforce Management" value={50} tone="amber" />
+          <CheckItem
+            text={
+              <>
+                Workforce Management System — <strong>50%</strong>, next milestone on track
+              </>
+            }
+            variant="amber"
+          />
+        </div>
+      </div>
+      <SFooter stats={[{ val: "Q1 2026", lbl: "Review Period" }, { val: "95%", lbl: "Avg. Completion" }]} />
+    </SlideCard>
+  );
+}
+
+function SlideFive() {
+  return (
+    <SlideCard slideNum={5}>
+      <SHeader
+        icon="fas fa-shield-alt"
+        iconClass="icon-amber"
+        title="POSSAP — Biometric & Portal Modernization"
+        subtitle="Security and accessibility enhancements for public sector"
+        badge="100% Delivered"
+        badgeVariant="green"
+      />
+      <div className="s-two-col">
+        <div className="s-card">
+          <div className="s-card-title">Key Deliverables</div>
+          <CheckItem text="Tint Permits — Individual & Fleet portals fully operational" />
+          <CheckItem text="Character Certificates and Police Extracts digitized" />
+          <CheckItem text="Admin approval workflows with comprehensive reporting" />
+          <CheckItem text="Legacy desktop biometric app migrated to modern web app" />
+          <CheckItem text="AWS face liveness + real-time NIN comparison integrated" />
+          <CheckItem text="CCDB redesign & certificate generation UX refresh" />
+        </div>
+        <div className="s-card s-card-centered">
+          <div className="s-card-title" style={{ textAlign: "center" }}>
+            Delivery Breakdown
+          </div>
+          <div className="s-donut-wrap">
+            <div className="s-donut">
+              <div className="s-donut-inner">
+                <span className="s-donut-val">100%</span>
+                <span className="s-donut-sub">Delivered</span>
+              </div>
+            </div>
+            <div className="s-legend">
+              {[
+                { label: "Citizen Services", pct: "40%", color: "#3b82f6" },
+                { label: "Admin Workflows", pct: "35%", color: "#22c55e" },
+                { label: "Biometric Security", pct: "25%", color: "#f59e0b" },
+              ].map((l) => (
+                <div className="s-legend-item" key={l.label}>
+                  <div className="s-legend-left">
+                    <div className="s-legend-dot" style={{ background: l.color }} />
+                    <span>{l.label}</span>
+                  </div>
+                  <strong>{l.pct}</strong>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+      <SFooter
+        stats={[
+          { val: "Q1 2026", lbl: "Review Period" },
+          { val: "Delivered", lbl: "Project Status", color: "#4ade80" },
+        ]}
+      />
+    </SlideCard>
+  );
+}
+
+function SlideSix() {
+  return (
+    <SlideCard slideNum={6}>
+      <SHeader
+        icon="fas fa-chart-bar"
+        iconClass="icon-teal"
+        title="Technical Progress Summary"
+        subtitle="Cross-project completion and portfolio health"
+        badge="Portfolio On Track"
+        badgeVariant="green"
+      />
+      <div className="s6-body">
+        <div className="s6-metrics">
+          {[
+            { val: "98%", lbl: "Average Completion" },
+            { val: "3", lbl: "Active Projects" },
+            { val: "High", lbl: "Operational Stability", color: "#4ade80" },
+          ].map((m) => (
+            <div className="s6-metric" key={m.lbl}>
+              <div className="s6-metric-val" style={m.color ? { color: m.color, fontSize: "20px" } : undefined}>
+                {m.val}
+              </div>
+              <div className="s6-metric-lbl">{m.lbl}</div>
+            </div>
+          ))}
+        </div>
+        <div className="s6-bars">
+          <BarRow label="POSSAP" value={100} tone="green" />
+          <BarRow label="ImpactifyU" value={100} tone="green" />
+          <BarRow label="ERP Payroll" value={97} tone="blue" />
+          <BarRow label="ERP Recruitment" value={100} tone="blue" />
+          <BarRow label="Workforce Mgmt" value={50} tone="amber" />
+        </div>
+      </div>
+      <SFooter stats={[{ val: "Q1 2026", lbl: "Review Period" }, { val: "On Track", lbl: "Delivery Status" }]} />
+    </SlideCard>
+  );
+}
+
+function SlideSeven() {
+  return (
+    <SlideCard slideNum={7}>
+      <SHeader
+        icon="fas fa-road"
+        iconClass="icon-purple"
+        title="Strategic Roadmap & Next Steps"
+        subtitle="Short-term focus — 30 to 60 day priorities"
+        badge="Action Required"
+        badgeVariant="amber"
+      />
+      <div className="s-two-col">
+        <div>
+          <div className="s7-col-title">
+            <i className="fas fa-bullseye" /> Priority Actions
+          </div>
+          {[
+            {
+              n: "1",
+              text: (
+                <>
+                  Complete remaining <strong>10%</strong> of ERP salary back-pay logic and run final regression tests
+                </>
+              ),
+              amber: false,
+            },
+            {
+              n: "2",
+              text: (
+                <>
+                  Accelerate <strong>Workforce Management System</strong> from 50% — targeting 80% by end of next sprint
+                </>
+              ),
+              amber: true,
+            },
+            {
+              n: "3",
+              text: (
+                <>
+                  Scale <strong>ImpactifyU</strong> content library and roll out facilitator assessment tooling
+                </>
+              ),
+              amber: false,
+            },
+          ].map((item) => (
+            <div className="s7-item" key={item.n}>
+              <div className={`s7-num ${item.amber ? "s7-num-amber" : ""}`}>{item.n}</div>
+              <div className="s-check-text">{item.text}</div>
+            </div>
+          ))}
+          <div style={{ marginTop: "16px" }}>
+            <BarRow label="ERP Back-pay" value={90} tone="blue" />
+            <BarRow label="Workforce System" value={50} tone="amber" />
+            <BarRow label="Platform Stability" value={100} tone="green" />
+          </div>
+        </div>
+        <div>
+          <div className="s7-col-title">
+            <i className="fas fa-wrench" /> Engineering Quality Goals
+          </div>
+          {[
+            <>
+              Standardize <strong>AI-assisted coding practices</strong> (Claude Code & Copilot) across all development teams
+            </>,
+            <>
+              Optimize cloud infrastructure costs for <strong>POSSAP</strong> and <strong>Impactify</strong> production
+              environments
+            </>,
+            <>Implement unified observability stack — logging, tracing, and alerting baseline</>,
+            <>Establish team-wide code review cadence aligned with new AI tooling guidelines</>,
+          ].map((text, i) => (
+            <div className="s7-item" key={i}>
+              <div className="s7-num">{i + 1}</div>
+              <div className="s-check-text">{text}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <SFooter stats={[{ val: "30–60d", lbl: "Planning Horizon" }, { val: "Q2 2026", lbl: "Target Quarter" }]} />
+    </SlideCard>
   );
 }
 
 function SlideEight() {
   return (
-    <div className="slide-container slide-generic">
-      <div className="header">
-        <div className="header-left">
-          <div className="header-icon">
-            <i className="fas fa-comments" />
-          </div>
-          <div className="header-text">
-            <div className="header-title">Q&amp;A</div>
-            <div className="header-subtitle">Innovating through automation, empowering through technology.</div>
+    <SlideCard slideNum={8}>
+      <SHeader
+        icon="fas fa-comments"
+        iconClass="icon-blue"
+        title="Questions & Answers"
+        subtitle="Engineering Projects QBR — Q1 2026"
+      />
+      <div className="s8-body">
+        <div className="s8-icon">
+          <i className="fas fa-lightbulb" />
+        </div>
+        <div className="s8-title">Q&amp;A</div>
+        <div className="s8-tagline">
+          Innovating through automation, empowering through technology. We&apos;d love to hear your questions.
+        </div>
+        <div className="s8-divider">
+          <div className="s8-line" />
+          <div className="s8-div-text">CONTACT</div>
+          <div className="s8-line" />
+        </div>
+        <div className="s8-contact">
+          <strong>Project Manager, Software Development</strong> &nbsp;·&nbsp; abubakar.abdulwahab@outsourceglobal.com
+        </div>
+      </div>
+      <div className="s-footer">
+        <div className="s-footer-brand">Outsource Global | Engineering Projects QBR — Q1 2026</div>
+        <div className="s-footer-stats">
+          <div className="s-stat">
+            <span className="s-stat-val" style={{ color: "#4ade80" }}>
+              Thank You
+            </span>
+            <span className="s-stat-lbl">Outsource Global</span>
           </div>
         </div>
       </div>
-      <div className="main-content qa-center">
-        <div className="qa-pill">Questions &amp; Answers</div>
-        <div className="qa-contact">Contact: Your Name / Email</div>
-      </div>
-      <div className="footer">
-        <div className="footer-text">Thank You</div>
-      </div>
-    </div>
+    </SlideCard>
   );
 }
 
-const slides = [
-  SlideOne,
-  SlideTwo,
-  SlideThree,
-  () => (
-    <GenericSlide
-      title="Project 2 - ERP System (Progress Report)"
-      subtitle="Modernizing financial and human resource operations"
-      leftTitle="Quarterly Achievements"
-      leftItems={[
-        "Payroll: Tax configurations (100%), salary deduction upgrades (100%), back-pay (90%).",
-        "Recruitment: Candidate invitation and CV upload workflow (100%).",
-        "Infrastructure: Migration to new ERP frontend and support protocols (100%).",
-      ]}
-      rightTitle="Ongoing Work"
-      rightItems={["Workforce Management System at 50% completion.", "On track for next milestone delivery."]}
-      chart={
-        <MiniBarChart
-          items={[
-            { label: "Tax Configurations", value: 100, tone: "green" },
-            { label: "Salary Deductions", value: 100, tone: "green" },
-            { label: "Salary Back-pay", value: 90, tone: "blue" },
-            { label: "Workforce Mgmt", value: 50, tone: "amber" },
-          ]}
-        />
-      }
-    />
-  ),
-  () => (
-    <GenericSlide
-      title="Project 3 - POSSAP (Biometric & Portal Modernization)"
-      subtitle="Security and accessibility enhancements"
-      leftTitle="Key Deliverables (100% Complete)"
-      leftItems={[
-        "Tint Permits (Individual & Fleet), Character Certificates, Police Extracts.",
-        "Advanced admin approval workflows and comprehensive reporting.",
-      ]}
-      rightTitle="Technical Transformation"
-      rightItems={[
-        "Legacy desktop biometric app migrated to modern web app.",
-        "AWS face liveness and real-time NIN comparison integrated.",
-        "CCDB redesign and certificate generation UX refresh completed.",
-      ]}
-      chart={<PieBreakdown />}
-    />
-  ),
-  () => (
-    <GenericSlide
-      title="Technical Progress Summary"
-      subtitle="Cross-project completion status"
-      leftTitle="Completion Snapshot"
-      leftItems={[
-        "POSSAP: 100% completion on core modernization and biometric integration.",
-        "ERP: 95% average completion across Payroll and Recruitment.",
-        "ImpactifyU: Core infrastructure and community features fully operational.",
-      ]}
-      rightTitle="Portfolio Health"
-      rightItems={["Average completion: 98%", "Delivery status: On track", "Operational stability: High"]}
-      chart={
-        <div className="donut-grid donut-grid-lg">
-          <DonutRow label="POSSAP" value={100} />
-          <DonutRow label="ERP" value={95} />
-          <DonutRow label="ImpactifyU" value={100} />
-        </div>
-      }
-    />
-  ),
-  () => (
-    <GenericSlide
-      title="Strategic Roadmap & Next Steps"
-      subtitle="Short-term focus (30-60 days)"
-      leftTitle="Priority Actions"
-      leftItems={[
-        "Finalize remaining 10% of ERP salary back-pay logic.",
-        "Accelerate Workforce Management System delivery (currently 50%).",
-        "Scale ImpactifyU content library and facilitator assessment tools.",
-      ]}
-      rightTitle="Engineering Quality Goals"
-      rightItems={[
-        "Standardize AI-assisted coding practices across teams.",
-        "Optimize cloud costs for POSSAP and Impactify infrastructures.",
-      ]}
-      chart={
-        <MiniBarChart
-          items={[
-            { label: "ERP Back-pay Completion", value: 90, tone: "blue" },
-            { label: "Workforce System", value: 50, tone: "amber" },
-            { label: "Platform Stability", value: 100, tone: "green" },
-          ]}
-        />
-      }
-    />
-  ),
-  SlideEight,
-];
+const slides = [SlideOne, SlideTwo, SlideThree, SlideFour, SlideFive, SlideSix, SlideSeven, SlideEight];
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
